@@ -1,0 +1,35 @@
+# Environments & Secrets
+.env
+.env.local
+.env.*.local
+.env.development
+.env.staging
+.env.production
+*.env
+
+# Python virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache & compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# OS/IDE metadata
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
