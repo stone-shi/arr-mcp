@@ -69,6 +69,11 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 
    # Disable SSL verification since we use internal domain names with self-signed certificates
    ARR_SSL_VERIFY=False
+
+   # MCP Transport settings (stdio or sse)
+   MCP_TRANSPORT=stdio
+   MCP_HOST=0.0.0.0
+   MCP_PORT=8000
    ```
 
 3. **Install Dependencies**:
