@@ -6,6 +6,7 @@
 .env.staging
 .env.production
 *.env
+version.txt
 
 # Python virtual environment
 venv/

@@ -14,7 +14,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
-COPY config.py main.py README.md .env.example ./
+COPY config.py main.py README.md .env.example version.txt* ./
 COPY clients/ ./clients/
 
 # Set default environment variables for MCP transport

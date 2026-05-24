@@ -2,7 +2,9 @@ from mcp.server.fastmcp import FastMCP
 from config import settings
 from clients import LidarrClient, RadarrClient, SonarrClient
 import logging
+import os
 from typing import List, Dict, Any, Optional
+from starlette.responses import PlainTextResponse
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -327,6 +329,17 @@ def sonarr_list_episodes(series_id: int) -> list:
     """
     logger.info(f"sonarr_list_episodes called for series_id={series_id}")
     return sonarr.get_episodes(series_id)
+
+
+@mcp.custom_route("/version", methods=["GET"])
+async def get_version(request) -> PlainTextResponse:
+    version_path = os.path.join(os.path.dirname(__file__), "version.txt")
+    if os.path.exists(version_path):
+        with open(version_path, "r") as f:
+            version_info = f.read().strip()
+    else:
+        version_info = "unknown"
+    return PlainTextResponse(version_info)
 
 
 if __name__ == "__main__":
