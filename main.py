@@ -50,6 +50,8 @@ def lidarr_list_artists(
 ) -> list:
     """List all artists in the Lidarr library, with pagination.
     
+    WARNING: Do NOT use this tool to find/lookup a specific artist. Use `lidarr_search_artists` instead.
+    
     Args:
         page: Page number to fetch (default: 1).
         page_size: Number of items per page (default: 20).
@@ -77,6 +79,8 @@ def lidarr_list_albums(
     nopager: bool = False
 ) -> list:
     """List albums in the Lidarr library, optionally filtered by artist ID, with pagination.
+    
+    WARNING: Do NOT use this tool to find/lookup a specific album. Use a search tool instead.
     
     Args:
         artist_id: Optional artist ID to filter albums.
@@ -138,6 +142,8 @@ def radarr_list_movies(
     nopager: bool = False
 ) -> list:
     """List all movies in the Radarr library, with pagination.
+    
+    WARNING: Do NOT use this tool to find/lookup a specific movie. Use `radarr_search_movie` instead.
     
     Args:
         page: Page number to fetch (default: 1).
@@ -298,6 +304,8 @@ def sonarr_list_series(
     nopager: bool = False
 ) -> list:
     """List all TV series in the Sonarr library, with pagination.
+    
+    WARNING: Do NOT use this tool to find/lookup a specific TV show/series. Use `sonarr_search_series` instead.
     
     Args:
         page: Page number to fetch (default: 1).

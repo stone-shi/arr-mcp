@@ -67,3 +67,5 @@ Local configuration is loaded via environment variables or the local `.env` file
    * Ensure that all http/https client calls respect the `verify_ssl` settings. Many environments use self-signed certificates.
 3. **Pydantic**:
    * Settings loading uses `pydantic-settings`. Any new config variables should be added to `config.py`.
+4. **Media Retrieval Guidelines**:
+   * **Do not use list calls** (e.g., listing all movies, series, artists, or albums) to find a specific media item. Always use the search/lookup tools instead. Listing calls fetch the entire library (even with local pagination, the server must fetch all items from the upstream service), whereas search calls are optimized for finding specific items.
