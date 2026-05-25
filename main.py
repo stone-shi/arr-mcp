@@ -22,6 +22,18 @@ lidarr = LidarrClient(settings.lidarr_url, settings.lidarr_api_key, settings.arr
 radarr = RadarrClient(settings.radarr_url, settings.radarr_api_key, settings.arr_ssl_verify)
 sonarr = SonarrClient(settings.sonarr_url, settings.sonarr_api_key, settings.arr_ssl_verify)
 
+
+def paginate_list(items: list, page: int, page_size: int, nopager: bool) -> list:
+    """Helper to paginate a list of items locally."""
+    if nopager:
+        return items
+    page = max(1, page)
+    page_size = max(1, page_size)
+    start = (page - 1) * page_size
+    end = start + page_size
+    return items[start:end]
+
+
 # ----------------- Lidarr Tools -----------------
 
 @mcp.tool()
@@ -31,10 +43,21 @@ def lidarr_get_status() -> dict:
     return lidarr.get_system_status()
 
 @mcp.tool()
-def lidarr_list_artists() -> list:
-    """List all artists in the Lidarr library."""
-    logger.info("lidarr_list_artists called")
-    return lidarr.get_artists()
+def lidarr_list_artists(
+    page: int = 1,
+    page_size: int = 20,
+    nopager: bool = False
+) -> list:
+    """List all artists in the Lidarr library, with pagination.
+    
+    Args:
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 20).
+        nopager: If True, returns all artists without pagination.
+    """
+    logger.info(f"lidarr_list_artists called (page={page}, page_size={page_size}, nopager={nopager})")
+    artists = lidarr.get_artists()
+    return paginate_list(artists, page, page_size, nopager)
 
 @mcp.tool()
 def lidarr_search_artists(term: str) -> list:
@@ -47,14 +70,23 @@ def lidarr_search_artists(term: str) -> list:
     return lidarr.search_artists(term)
 
 @mcp.tool()
-def lidarr_list_albums(artist_id: Optional[int] = None) -> list:
-    """List albums in the Lidarr library, optionally filtered by artist ID.
+def lidarr_list_albums(
+    artist_id: Optional[int] = None,
+    page: int = 1,
+    page_size: int = 20,
+    nopager: bool = False
+) -> list:
+    """List albums in the Lidarr library, optionally filtered by artist ID, with pagination.
     
     Args:
         artist_id: Optional artist ID to filter albums.
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 20).
+        nopager: If True, returns all albums without pagination.
     """
-    logger.info(f"lidarr_list_albums called with artist_id: {artist_id}")
-    return lidarr.get_albums(artist_id)
+    logger.info(f"lidarr_list_albums called with artist_id: {artist_id} (page={page}, page_size={page_size}, nopager={nopager})")
+    albums = lidarr.get_albums(artist_id)
+    return paginate_list(albums, page, page_size, nopager)
 
 @mcp.tool()
 def lidarr_trigger_command(name: str, params: Optional[dict] = None) -> dict:
@@ -100,10 +132,21 @@ def radarr_get_status() -> dict:
     return radarr.get_system_status()
 
 @mcp.tool()
-def radarr_list_movies() -> list:
-    """List all movies in the Radarr library."""
-    logger.info("radarr_list_movies called")
-    return radarr.list_movies()
+def radarr_list_movies(
+    page: int = 1,
+    page_size: int = 20,
+    nopager: bool = False
+) -> list:
+    """List all movies in the Radarr library, with pagination.
+    
+    Args:
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 20).
+        nopager: If True, returns all movies without pagination.
+    """
+    logger.info(f"radarr_list_movies called (page={page}, page_size={page_size}, nopager={nopager})")
+    movies = radarr.list_movies()
+    return paginate_list(movies, page, page_size, nopager)
 
 @mcp.tool()
 def radarr_get_movie(movie_id: int) -> dict:
@@ -249,10 +292,21 @@ def sonarr_get_health() -> dict:
     return sonarr.get_health()
 
 @mcp.tool()
-def sonarr_list_series() -> list:
-    """List all TV series in the Sonarr library."""
-    logger.info("sonarr_list_series called")
-    return sonarr.list_series()
+def sonarr_list_series(
+    page: int = 1,
+    page_size: int = 20,
+    nopager: bool = False
+) -> list:
+    """List all TV series in the Sonarr library, with pagination.
+    
+    Args:
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 20).
+        nopager: If True, returns all series without pagination.
+    """
+    logger.info(f"sonarr_list_series called (page={page}, page_size={page_size}, nopager={nopager})")
+    series = sonarr.list_series()
+    return paginate_list(series, page, page_size, nopager)
 
 @mcp.tool()
 def sonarr_search_series(term: str) -> list:
