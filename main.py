@@ -406,9 +406,29 @@ async def get_version(request) -> PlainTextResponse:
 
 if __name__ == "__main__":
     transport = settings.mcp_transport.lower()
-    if transport == "sse":
-        logger.info(f"Starting Arr-MCP server over SSE on {settings.mcp_host}:{settings.mcp_port}...")
-        mcp.run(transport="sse")
+    if transport in ("sse", "http", "streamable-http", "streamable_http", "dual", "all"):
+        logger.info(f"Starting Arr-MCP server over HTTP (SSE on /sse, Streamable HTTP on /mcp) on {settings.mcp_host}:{settings.mcp_port}...")
+        import uvicorn
+        from starlette.applications import Starlette
+
+        streamable_app = mcp.streamable_http_app()
+        sse_app = mcp.sse_app()
+
+        routes = []
+        seen = set()
+        for route in sse_app.routes + streamable_app.routes:
+            key = (getattr(route, "path", None), tuple(getattr(route, "methods", []) or []))
+            if key not in seen:
+                seen.add(key)
+                routes.append(route)
+
+        combined_app = Starlette(
+            routes=routes,
+            lifespan=streamable_app.router.lifespan_context
+        )
+
+        uvicorn.run(combined_app, host=settings.mcp_host, port=settings.mcp_port)
     else:
         logger.info("Starting Arr-MCP server over stdio...")
         mcp.run(transport="stdio")
+
