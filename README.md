@@ -70,7 +70,7 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
    # Disable SSL verification since we use internal domain names with self-signed certificates
    ARR_SSL_VERIFY=False
 
-   # MCP Transport settings (stdio or sse)
+   # MCP Transport settings (stdio, sse, streamable-http, or http)
    MCP_TRANSPORT=stdio
    MCP_HOST=0.0.0.0
    MCP_PORT=8000
@@ -95,23 +95,24 @@ By default, the server runs using standard input/output (`stdio`) when executed:
 ```
 
 ### Option B: Network Accessible (SSE & Streamable HTTP)
-To run the server over the network (supporting both Server-Sent Events and Streamable HTTP on the same port), set `MCP_TRANSPORT` (e.g., `sse`, `streamable-http`, or `http`):
+To run the server over the network (supporting both Server-Sent Events and Streamable HTTP simultaneously on the same port), set `MCP_TRANSPORT` (e.g. `sse`, `streamable-http`, or `http`):
 ```bash
-MCP_TRANSPORT=sse MCP_HOST=0.0.0.0 MCP_PORT=8000 ./venv/bin/python main.py
+MCP_TRANSPORT=http MCP_HOST=0.0.0.0 MCP_PORT=8000 ./venv/bin/python main.py
 ```
 
 Or configure inside your `.env` file:
 ```env
-MCP_TRANSPORT=sse
+MCP_TRANSPORT=http
 MCP_HOST=0.0.0.0
 MCP_PORT=8000
 ```
 When running over network mode, the server exposes:
 - **SSE Endpoint**: `http://<server-ip>:8000/sse`
 - **Streamable HTTP Endpoint**: `http://<server-ip>:8000/mcp`
+- **Health Check**: `http://<server-ip>:8000/version`
 
 
-### Option C: Docker & Docker Compose (SSE)
+### Option C: Docker & Docker Compose (HTTP Mode)
 You can run the server in a containerized environment using the provided `Dockerfile` and `docker-compose.yml`:
 
 1. **Start the Container**:
@@ -129,7 +130,7 @@ You can run the server in a containerized environment using the provided `Docker
 3. **Validate Connection**:
    Ensure it is listening on port `8000`:
    ```bash
-   curl http://localhost:8000/sse
+   curl http://localhost:8000/version
    ```
 
 ---
@@ -162,8 +163,10 @@ To integrate this local server into an MCP client, add the following entry to yo
 }
 ```
 
-### 2. Network Client (SSE)
+### 2. Network Client
 
-To connect remote clients to the server running over the network, specify the SSE endpoint in the client's settings:
+To connect remote clients to the server running over the network, specify one of the supported endpoints:
 - **SSE URL**: `http://<server-ip>:8000/sse`
+- **Streamable HTTP URL**: `http://<server-ip>:8000/mcp`
+
 
