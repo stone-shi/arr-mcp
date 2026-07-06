@@ -34,3 +34,6 @@ htmlcov/
 *.njsproj
 *.sln
 *.swp
+
+
+test-reports/
