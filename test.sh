@@ -6,16 +6,21 @@ if [ ! -d "venv" ] && [ ! -d ".venv" ]; then
     python3 -m venv .venv
 fi
 
-# Activate virtual environment
-if [ -d "venv" ]; then
-    source venv/bin/activate
-elif [ -d ".venv" ]; then
-    source .venv/bin/activate
+# Determine Python executable
+if [ -f "venv/bin/python" ]; then
+    PYTHON="venv/bin/python"
+    PIP="venv/bin/pip"
+elif [ -f ".venv/bin/python" ]; then
+    PYTHON=".venv/bin/python"
+    PIP=".venv/bin/pip"
+else
+    PYTHON="python3"
+    PIP="pip3"
 fi
 
 # Install dependencies
 echo "Installing dependencies..."
-pip install -q -r requirements.txt
+$PIP install -q -r requirements.txt
 
 # Run tests
-python -m pytest --junitxml=test-reports/results.xml tests/ -v
+$PYTHON -m pytest --junitxml=test-reports/results.xml tests/ -v
