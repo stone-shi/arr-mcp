@@ -29,7 +29,13 @@ class TestSettings:
         assert settings.mcp_host == "0.0.0.0"
         assert settings.mcp_port == 8000
 
-    def test_settings_missing_required_fields(self):
+    def test_settings_missing_required_fields(self, monkeypatch):
+        monkeypatch.delenv("LIDARR_URL", raising=False)
+        monkeypatch.delenv("LIDARR_API_KEY", raising=False)
+        monkeypatch.delenv("RADARR_URL", raising=False)
+        monkeypatch.delenv("RADARR_API_KEY", raising=False)
+        monkeypatch.delenv("SONARR_URL", raising=False)
+        monkeypatch.delenv("SONARR_API_KEY", raising=False)
         with pytest.raises(ValidationError):
             Settings(_env_file=None)
 
