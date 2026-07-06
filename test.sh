@@ -9,18 +9,15 @@ fi
 # Determine Python executable
 if [ -f "venv/bin/python" ]; then
     PYTHON="venv/bin/python"
-    PIP="venv/bin/pip"
 elif [ -f ".venv/bin/python" ]; then
     PYTHON=".venv/bin/python"
-    PIP=".venv/bin/pip"
 else
     PYTHON="python3"
-    PIP="pip3"
 fi
 
 # Install dependencies
 echo "Installing dependencies..."
-$PIP install -q -r requirements.txt
+$PYTHON -m pip install -q -r requirements.txt
 
 # Run tests
 $PYTHON -m pytest --junitxml=test-reports/results.xml tests/ -v
