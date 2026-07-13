@@ -179,3 +179,20 @@ class TestRadarrClientMethods:
 
         result = radarr_client.test_indexer(1)
         assert result == {"status": "success", "indexer": "Test Indexer"}
+
+    @respx.mock
+    def test_get_blocklist(self, radarr_client):
+        mock_blocklist = {"records": [], "page": 1, "pageSize": 20}
+        respx.get("http://localhost:7878/api/v3/blocklist", params={"page": 1, "pageSize": 20}).mock(
+            return_value=Response(200, json=mock_blocklist)
+        )
+
+        result = radarr_client.get_blocklist()
+        assert result == mock_blocklist
+
+    @respx.mock
+    def test_delete_blocklist_item(self, radarr_client):
+        respx.delete("http://localhost:7878/api/v3/blocklist/123").mock(return_value=Response(200))
+
+        result = radarr_client.delete_blocklist_item(123)
+        assert result == {"status": "deleted", "id": 123}

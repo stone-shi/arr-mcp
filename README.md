@@ -12,6 +12,8 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 - `lidarr_get_queue`: Get current download queue.
 - `lidarr_get_history`: Get system event history.
 - `lidarr_trigger_command`: Trigger Lidarr system commands.
+- `lidarr_get_blocklist`: List blocklisted releases.
+- `lidarr_delete_blocklist_item`: Remove an item from the blocklist.
 
 ### Radarr (Movies)
 - `radarr_get_status`: Get system status and version.
@@ -28,6 +30,8 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 - `radarr_trigger_command`: Run a Radarr command.
 - `radarr_list_indexers`: List configured indexers.
 - `radarr_test_indexer`: Run a verification test for an indexer.
+- `radarr_get_blocklist`: List blocklisted releases.
+- `radarr_delete_blocklist_item`: Remove an item from the blocklist.
 
 ### Sonarr (TV Shows)
 - `sonarr_get_health`: Check health and system status.
@@ -40,6 +44,8 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 - `sonarr_get_history`: Show event history.
 - `sonarr_trigger_command`: Trigger Sonarr system commands.
 - `sonarr_list_episodes`: List episodes for a TV series.
+- `sonarr_get_blocklist`: List blocklisted releases.
+- `sonarr_delete_blocklist_item`: Remove an item from the blocklist.
 
 ---
 

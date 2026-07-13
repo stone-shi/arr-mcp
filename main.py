@@ -118,13 +118,34 @@ def lidarr_get_queue(page: int = 1, page_size: int = 10) -> dict:
 @mcp.tool()
 def lidarr_get_history(page: int = 1, page_size: int = 10) -> dict:
     """Show activity history with pagination.
-    
+
     Args:
         page: Page number to fetch (default: 1).
         page_size: Number of items per page (default: 10).
     """
     logger.info(f"lidarr_get_history called (page={page}, page_size={page_size})")
     return lidarr.get_history(page, page_size)
+
+@mcp.tool()
+def lidarr_get_blocklist(page: int = 1, page_size: int = 10) -> dict:
+    """Show blocklisted releases with pagination.
+
+    Args:
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 10).
+    """
+    logger.info(f"lidarr_get_blocklist called (page={page}, page_size={page_size})")
+    return lidarr.get_blocklist(page, page_size)
+
+@mcp.tool()
+def lidarr_delete_blocklist_item(blocklist_id: int) -> dict:
+    """Remove an item from the blocklist, allowing it to be grabbed again.
+
+    Args:
+        blocklist_id: The ID of the blocklist entry to remove.
+    """
+    logger.info(f"lidarr_delete_blocklist_item called for blocklist_id={blocklist_id}")
+    return lidarr.delete_blocklist_item(blocklist_id)
 
 
 # ----------------- Radarr Tools -----------------
@@ -281,12 +302,33 @@ def radarr_list_indexers() -> list:
 @mcp.tool()
 def radarr_test_indexer(indexer_id: int) -> dict:
     """Test a specific indexer configuration.
-    
+
     Args:
         indexer_id: The ID of the indexer to test.
     """
     logger.info(f"radarr_test_indexer called for indexer_id={indexer_id}")
     return radarr.test_indexer(indexer_id)
+
+@mcp.tool()
+def radarr_get_blocklist(page: int = 1, page_size: int = 20) -> dict:
+    """Show blocklisted releases with pagination.
+
+    Args:
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 20).
+    """
+    logger.info(f"radarr_get_blocklist called (page={page}, page_size={page_size})")
+    return radarr.get_blocklist(page, page_size)
+
+@mcp.tool()
+def radarr_delete_blocklist_item(blocklist_id: int) -> dict:
+    """Remove an item from the blocklist, allowing it to be grabbed again.
+
+    Args:
+        blocklist_id: The ID of the blocklist entry to remove.
+    """
+    logger.info(f"radarr_delete_blocklist_item called for blocklist_id={blocklist_id}")
+    return radarr.delete_blocklist_item(blocklist_id)
 
 
 # ----------------- Sonarr Tools -----------------
@@ -385,12 +427,33 @@ def sonarr_trigger_command(name: str, params: Optional[dict] = None) -> dict:
 @mcp.tool()
 def sonarr_list_episodes(series_id: int) -> list:
     """List episodes for a specific TV series in Sonarr.
-    
+
     Args:
         series_id: The ID of the series in Sonarr.
     """
     logger.info(f"sonarr_list_episodes called for series_id={series_id}")
     return sonarr.get_episodes(series_id)
+
+@mcp.tool()
+def sonarr_get_blocklist(page: int = 1, page_size: int = 20) -> dict:
+    """Show blocklisted releases with pagination.
+
+    Args:
+        page: Page number to fetch (default: 1).
+        page_size: Number of items per page (default: 20).
+    """
+    logger.info(f"sonarr_get_blocklist called (page={page}, page_size={page_size})")
+    return sonarr.get_blocklist(page, page_size)
+
+@mcp.tool()
+def sonarr_delete_blocklist_item(blocklist_id: int) -> dict:
+    """Remove an item from the blocklist, allowing it to be grabbed again.
+
+    Args:
+        blocklist_id: The ID of the blocklist entry to remove.
+    """
+    logger.info(f"sonarr_delete_blocklist_item called for blocklist_id={blocklist_id}")
+    return sonarr.delete_blocklist_item(blocklist_id)
 
 
 @mcp.custom_route("/version", methods=["GET"])

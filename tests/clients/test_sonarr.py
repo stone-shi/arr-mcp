@@ -119,3 +119,20 @@ class TestSonarrClientMethods:
 
         result = sonarr_client.get_episodes(123)
         assert result == mock_episodes
+
+    @respx.mock
+    def test_get_blocklist(self, sonarr_client):
+        mock_blocklist = {"records": [], "page": 1, "pageSize": 20}
+        respx.get("http://localhost:8989/api/v3/blocklist", params={"page": 1, "pageSize": 20}).mock(
+            return_value=Response(200, json=mock_blocklist)
+        )
+
+        result = sonarr_client.get_blocklist()
+        assert result == mock_blocklist
+
+    @respx.mock
+    def test_delete_blocklist_item(self, sonarr_client):
+        respx.delete("http://localhost:8989/api/v3/blocklist/123").mock(return_value=Response(200))
+
+        result = sonarr_client.delete_blocklist_item(123)
+        assert result == {"status": "deleted", "id": 123}

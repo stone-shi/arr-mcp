@@ -134,3 +134,14 @@ class RadarrClient:
         test_response = self.client.post("/indexer/test", json=indexer_data)
         test_response.raise_for_status()
         return {"status": "success", "indexer": indexer_data.get('name')}
+
+    def get_blocklist(self, page: int = 1, page_size: int = 20) -> Dict[str, Any]:
+        params = {"page": page, "pageSize": page_size}
+        response = self.client.get("/blocklist", params=params)
+        response.raise_for_status()
+        return response.json()
+
+    def delete_blocklist_item(self, blocklist_id: int) -> Dict[str, Any]:
+        response = self.client.delete(f"/blocklist/{blocklist_id}")
+        response.raise_for_status()
+        return {"status": "deleted", "id": blocklist_id}

@@ -107,6 +107,23 @@ class TestLidarrClientMethods:
         assert result == mock_history
 
     @respx.mock
+    def test_get_blocklist(self, lidarr_client):
+        mock_blocklist = {"records": [], "page": 1, "pageSize": 10, "totalRecords": 0}
+        respx.get("http://localhost:8686/api/v1/blocklist", params={"page": 1, "pageSize": 10}).mock(
+            return_value=Response(200, json=mock_blocklist)
+        )
+
+        result = lidarr_client.get_blocklist()
+        assert result == mock_blocklist
+
+    @respx.mock
+    def test_delete_blocklist_item(self, lidarr_client):
+        respx.delete("http://localhost:8686/api/v1/blocklist/123").mock(return_value=Response(200))
+
+        result = lidarr_client.delete_blocklist_item(123)
+        assert result == {"status": "deleted", "id": 123}
+
+    @respx.mock
     def test_get_system_status_http_error(self, lidarr_client):
         respx.get("http://localhost:8686/api/v1/system/status").mock(return_value=Response(500))
 
