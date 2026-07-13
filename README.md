@@ -14,6 +14,9 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 - `lidarr_trigger_command`: Trigger Lidarr system commands.
 - `lidarr_get_blocklist`: List blocklisted releases.
 - `lidarr_delete_blocklist_item`: Remove an item from the blocklist.
+- `lidarr_list_import_list_exclusions`: List artists excluded from import lists.
+- `lidarr_add_import_list_exclusion`: Exclude an artist from import lists.
+- `lidarr_delete_import_list_exclusion`: Remove an import list exclusion.
 
 ### Radarr (Movies)
 - `radarr_get_status`: Get system status and version.
@@ -32,6 +35,9 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 - `radarr_test_indexer`: Run a verification test for an indexer.
 - `radarr_get_blocklist`: List blocklisted releases.
 - `radarr_delete_blocklist_item`: Remove an item from the blocklist.
+- `radarr_list_import_list_exclusions`: List movies excluded from import lists.
+- `radarr_add_import_list_exclusion`: Exclude a movie from import lists.
+- `radarr_delete_import_list_exclusion`: Remove an import list exclusion.
 
 ### Sonarr (TV Shows)
 - `sonarr_get_health`: Check health and system status.
@@ -46,6 +52,9 @@ A unified Model Context Protocol (MCP) server providing access to **Lidarr**, **
 - `sonarr_list_episodes`: List episodes for a TV series.
 - `sonarr_get_blocklist`: List blocklisted releases.
 - `sonarr_delete_blocklist_item`: Remove an item from the blocklist.
+- `sonarr_list_import_list_exclusions`: List series excluded from import lists.
+- `sonarr_add_import_list_exclusion`: Exclude a series from import lists.
+- `sonarr_delete_import_list_exclusion`: Remove an import list exclusion.
 
 ---
 

@@ -196,3 +196,26 @@ class TestRadarrClientMethods:
 
         result = radarr_client.delete_blocklist_item(123)
         assert result == {"status": "deleted", "id": 123}
+
+    @respx.mock
+    def test_list_import_list_exclusions(self, radarr_client):
+        mock_exclusions = [{"id": 1, "tmdbId": 123, "movieTitle": "Inception", "movieYear": 2010}]
+        respx.get("http://localhost:7878/api/v3/exclusions").mock(return_value=Response(200, json=mock_exclusions))
+
+        result = radarr_client.list_import_list_exclusions()
+        assert result == mock_exclusions
+
+    @respx.mock
+    def test_add_import_list_exclusion(self, radarr_client):
+        mock_added = {"id": 1, "tmdbId": 123, "movieTitle": "Inception", "movieYear": 2010}
+        respx.post("http://localhost:7878/api/v3/exclusions").mock(return_value=Response(200, json=mock_added))
+
+        result = radarr_client.add_import_list_exclusion(123, "Inception", 2010)
+        assert result == mock_added
+
+    @respx.mock
+    def test_delete_import_list_exclusion(self, radarr_client):
+        respx.delete("http://localhost:7878/api/v3/exclusions/1").mock(return_value=Response(200))
+
+        result = radarr_client.delete_import_list_exclusion(1)
+        assert result == {"status": "deleted", "id": 1}

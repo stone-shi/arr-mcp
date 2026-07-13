@@ -124,6 +124,33 @@ class TestLidarrClientMethods:
         assert result == {"status": "deleted", "id": 123}
 
     @respx.mock
+    def test_list_import_list_exclusions(self, lidarr_client):
+        mock_exclusions = [{"id": 1, "foreignId": "mbid-123", "artistName": "Adele"}]
+        respx.get("http://localhost:8686/api/v1/importlistexclusion").mock(
+            return_value=Response(200, json=mock_exclusions)
+        )
+
+        result = lidarr_client.list_import_list_exclusions()
+        assert result == mock_exclusions
+
+    @respx.mock
+    def test_add_import_list_exclusion(self, lidarr_client):
+        mock_added = {"id": 1, "foreignId": "mbid-123", "artistName": "Adele"}
+        respx.post("http://localhost:8686/api/v1/importlistexclusion").mock(
+            return_value=Response(200, json=mock_added)
+        )
+
+        result = lidarr_client.add_import_list_exclusion("mbid-123", "Adele")
+        assert result == mock_added
+
+    @respx.mock
+    def test_delete_import_list_exclusion(self, lidarr_client):
+        respx.delete("http://localhost:8686/api/v1/importlistexclusion/1").mock(return_value=Response(200))
+
+        result = lidarr_client.delete_import_list_exclusion(1)
+        assert result == {"status": "deleted", "id": 1}
+
+    @respx.mock
     def test_get_system_status_http_error(self, lidarr_client):
         respx.get("http://localhost:8686/api/v1/system/status").mock(return_value=Response(500))
 

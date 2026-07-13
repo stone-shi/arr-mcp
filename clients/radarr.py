@@ -145,3 +145,19 @@ class RadarrClient:
         response = self.client.delete(f"/blocklist/{blocklist_id}")
         response.raise_for_status()
         return {"status": "deleted", "id": blocklist_id}
+
+    def list_import_list_exclusions(self) -> List[Dict[str, Any]]:
+        response = self.client.get("/exclusions")
+        response.raise_for_status()
+        return response.json()
+
+    def add_import_list_exclusion(self, tmdb_id: int, movie_title: str, movie_year: int) -> Dict[str, Any]:
+        payload = {"tmdbId": tmdb_id, "movieTitle": movie_title, "movieYear": movie_year}
+        response = self.client.post("/exclusions", json=payload)
+        response.raise_for_status()
+        return response.json()
+
+    def delete_import_list_exclusion(self, exclusion_id: int) -> Dict[str, Any]:
+        response = self.client.delete(f"/exclusions/{exclusion_id}")
+        response.raise_for_status()
+        return {"status": "deleted", "id": exclusion_id}

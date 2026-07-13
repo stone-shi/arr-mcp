@@ -147,6 +147,33 @@ def lidarr_delete_blocklist_item(blocklist_id: int) -> dict:
     logger.info(f"lidarr_delete_blocklist_item called for blocklist_id={blocklist_id}")
     return lidarr.delete_blocklist_item(blocklist_id)
 
+@mcp.tool()
+def lidarr_list_import_list_exclusions() -> list:
+    """List artists excluded from being re-added by Lidarr import lists."""
+    logger.info("lidarr_list_import_list_exclusions called")
+    return lidarr.list_import_list_exclusions()
+
+@mcp.tool()
+def lidarr_add_import_list_exclusion(foreign_id: str, artist_name: str) -> dict:
+    """Exclude an artist from being added by Lidarr import lists.
+
+    Args:
+        foreign_id: The MusicBrainz ID (mbid) of the artist to exclude.
+        artist_name: The name of the artist to exclude.
+    """
+    logger.info(f"lidarr_add_import_list_exclusion called for foreign_id={foreign_id}")
+    return lidarr.add_import_list_exclusion(foreign_id, artist_name)
+
+@mcp.tool()
+def lidarr_delete_import_list_exclusion(exclusion_id: int) -> dict:
+    """Remove an import list exclusion, allowing the artist to be re-added by import lists.
+
+    Args:
+        exclusion_id: The ID of the import list exclusion to remove.
+    """
+    logger.info(f"lidarr_delete_import_list_exclusion called for exclusion_id={exclusion_id}")
+    return lidarr.delete_import_list_exclusion(exclusion_id)
+
 
 # ----------------- Radarr Tools -----------------
 
@@ -330,6 +357,34 @@ def radarr_delete_blocklist_item(blocklist_id: int) -> dict:
     logger.info(f"radarr_delete_blocklist_item called for blocklist_id={blocklist_id}")
     return radarr.delete_blocklist_item(blocklist_id)
 
+@mcp.tool()
+def radarr_list_import_list_exclusions() -> list:
+    """List movies excluded from being re-added by Radarr import lists."""
+    logger.info("radarr_list_import_list_exclusions called")
+    return radarr.list_import_list_exclusions()
+
+@mcp.tool()
+def radarr_add_import_list_exclusion(tmdb_id: int, movie_title: str, movie_year: int) -> dict:
+    """Exclude a movie from being added by Radarr import lists.
+
+    Args:
+        tmdb_id: The TMDB ID of the movie to exclude.
+        movie_title: The title of the movie to exclude.
+        movie_year: The release year of the movie to exclude.
+    """
+    logger.info(f"radarr_add_import_list_exclusion called for tmdb_id={tmdb_id}")
+    return radarr.add_import_list_exclusion(tmdb_id, movie_title, movie_year)
+
+@mcp.tool()
+def radarr_delete_import_list_exclusion(exclusion_id: int) -> dict:
+    """Remove an import list exclusion, allowing the movie to be re-added by import lists.
+
+    Args:
+        exclusion_id: The ID of the import list exclusion to remove.
+    """
+    logger.info(f"radarr_delete_import_list_exclusion called for exclusion_id={exclusion_id}")
+    return radarr.delete_import_list_exclusion(exclusion_id)
+
 
 # ----------------- Sonarr Tools -----------------
 
@@ -454,6 +509,33 @@ def sonarr_delete_blocklist_item(blocklist_id: int) -> dict:
     """
     logger.info(f"sonarr_delete_blocklist_item called for blocklist_id={blocklist_id}")
     return sonarr.delete_blocklist_item(blocklist_id)
+
+@mcp.tool()
+def sonarr_list_import_list_exclusions() -> list:
+    """List series excluded from being re-added by Sonarr import lists."""
+    logger.info("sonarr_list_import_list_exclusions called")
+    return sonarr.list_import_list_exclusions()
+
+@mcp.tool()
+def sonarr_add_import_list_exclusion(tvdb_id: int, title: str) -> dict:
+    """Exclude a series from being added by Sonarr import lists.
+
+    Args:
+        tvdb_id: The TVDB ID of the series to exclude.
+        title: The title of the series to exclude.
+    """
+    logger.info(f"sonarr_add_import_list_exclusion called for tvdb_id={tvdb_id}")
+    return sonarr.add_import_list_exclusion(tvdb_id, title)
+
+@mcp.tool()
+def sonarr_delete_import_list_exclusion(exclusion_id: int) -> dict:
+    """Remove an import list exclusion, allowing the series to be re-added by import lists.
+
+    Args:
+        exclusion_id: The ID of the import list exclusion to remove.
+    """
+    logger.info(f"sonarr_delete_import_list_exclusion called for exclusion_id={exclusion_id}")
+    return sonarr.delete_import_list_exclusion(exclusion_id)
 
 
 @mcp.custom_route("/version", methods=["GET"])

@@ -96,3 +96,19 @@ class SonarrClient:
         response = self.client.delete(f"/blocklist/{blocklist_id}")
         response.raise_for_status()
         return {"status": "deleted", "id": blocklist_id}
+
+    def list_import_list_exclusions(self) -> List[Dict[str, Any]]:
+        response = self.client.get("/importlistexclusion")
+        response.raise_for_status()
+        return response.json()
+
+    def add_import_list_exclusion(self, tvdb_id: int, title: str) -> Dict[str, Any]:
+        payload = {"tvdbId": tvdb_id, "title": title}
+        response = self.client.post("/importlistexclusion", json=payload)
+        response.raise_for_status()
+        return response.json()
+
+    def delete_import_list_exclusion(self, exclusion_id: int) -> Dict[str, Any]:
+        response = self.client.delete(f"/importlistexclusion/{exclusion_id}")
+        response.raise_for_status()
+        return {"status": "deleted", "id": exclusion_id}

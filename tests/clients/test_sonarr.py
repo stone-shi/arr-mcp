@@ -136,3 +136,30 @@ class TestSonarrClientMethods:
 
         result = sonarr_client.delete_blocklist_item(123)
         assert result == {"status": "deleted", "id": 123}
+
+    @respx.mock
+    def test_list_import_list_exclusions(self, sonarr_client):
+        mock_exclusions = [{"id": 1, "tvdbId": 123, "title": "The Boys"}]
+        respx.get("http://localhost:8989/api/v3/importlistexclusion").mock(
+            return_value=Response(200, json=mock_exclusions)
+        )
+
+        result = sonarr_client.list_import_list_exclusions()
+        assert result == mock_exclusions
+
+    @respx.mock
+    def test_add_import_list_exclusion(self, sonarr_client):
+        mock_added = {"id": 1, "tvdbId": 123, "title": "The Boys"}
+        respx.post("http://localhost:8989/api/v3/importlistexclusion").mock(
+            return_value=Response(200, json=mock_added)
+        )
+
+        result = sonarr_client.add_import_list_exclusion(123, "The Boys")
+        assert result == mock_added
+
+    @respx.mock
+    def test_delete_import_list_exclusion(self, sonarr_client):
+        respx.delete("http://localhost:8989/api/v3/importlistexclusion/1").mock(return_value=Response(200))
+
+        result = sonarr_client.delete_import_list_exclusion(1)
+        assert result == {"status": "deleted", "id": 1}
